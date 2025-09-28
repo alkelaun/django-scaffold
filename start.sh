@@ -55,7 +55,7 @@ echo "--- Running django-admin inside a temporary container... ---"
 docker run --rm -v "$(pwd)":/usr/src/app python:$PYTHON_VERSION /bin/bash -c "pip install django && django-admin startproject $PROJECT_NAME ."
 
 echo "--- Building and running containers... ---"
-docker-compose up --build -d
+docker-compose up --build --force-recreate --build-arg PYTHON_VERSION=$PYTHON_VERSION
 
 echo "--- Setup complete! ---"
 echo "Your Django project '$PROJECT_NAME' is running inside a Docker container."
