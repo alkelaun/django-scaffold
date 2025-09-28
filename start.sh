@@ -14,8 +14,9 @@ command_exists () {
 if ! command_exists uv ; then
     echo "➡️ uv not found. Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    # Add uv to PATH for the current session
+    # Add uv to PATH for the current session and future sessions
     export PATH="$HOME/.cargo/bin:$PATH"
+    echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
     if ! command_exists uv ; then
         echo "❌ Failed to install uv. Please ensure curl is installed and you have write permissions to your home directory."
         exit 1
@@ -24,19 +25,19 @@ else
     echo "✅ uv is already installed."
 fi
 
-# --- Step 2: Create a virtual environment with uv ---
+---
+### Step 2: Create a new virtual environment
 echo "➡️ Creating a new virtual environment with uv..."
 uv venv
 
-# Activate the virtual environment. This is good practice for the script's scope.
-# The 'uv run' command does not require activation, but this ensures a clean context.
+# Activate the virtual environment
 source .venv/bin/activate
 
-# --- Step 3: Install Django into the new environment ---
-echo "➡️ Installing Django into the virtual environment..."
+---
+### Step 3: Install Django and clone the template
+echo "➡️ Installing Django into the new environment..."
 uv pip install Django
 
-# --- Step 4: Clone the template from GitHub ---
 echo "➡️ Cloning Django template from GitHub..."
 git clone "$GITHUB_TEMPLATE_URL" "$PROJECT_NAME"
 
@@ -48,7 +49,8 @@ fi
 
 cd "$PROJECT_NAME"
 
-# --- Step 5: Install necessary packages from requirements.txt using uv ---
+---
+### Step 4: Install dependencies and set up the project
 echo "➡️ Installing dependencies from requirements.txt..."
 if [ -f "requirements.txt" ]; then
     uv pip install -r requirements.txt
@@ -56,11 +58,9 @@ else
     echo "⚠️ requirements.txt not found. Skipping package installation."
 fi
 
-# --- Step 6: Create the new Django app using the cloned project as a template ---
 echo "➡️ Creating new Django app using the template..."
-# 'uv run' executes the command within the virtual environment
-uv run django-admin startapp "$APP_NAME" .
+django-admin startapp "$APP_NAME" .
 
 echo "✅ All done! Your Django project '$PROJECT_NAME' and app '$APP_NAME' are ready."
 echo "   Navigate to the directory: cd $PROJECT_NAME"
-echo "   To run the server: uv run python manage.py runserver"
+echo "   To run the server: python manage.py runserver"
