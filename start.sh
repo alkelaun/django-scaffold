@@ -3,7 +3,7 @@
 # Define variables
 PROJECT_NAME="myproject"
 APP_NAME="myapp"
-GITHUB_TEMPLATE_URL="https://github.com/your-username/your-django-template.git"
+GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name.git"
 
 # --- Function to check if a command exists ---
 command_exists () {
