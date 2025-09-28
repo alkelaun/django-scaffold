@@ -1,9 +1,14 @@
 #!/bin/bash
 
 # Define variables
-PROJECT_NAME="myproject"
-APP_NAME="myapp"
-GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name.git"
+# The GitHub template URL is still a fixed value
+GITHUB_TEMPLATE_URL="https://github.com/your-username/your-django-template.git"
+
+# --- Get user input for the project name ---
+read -p "Enter the name for your new Django project: " PROJECT_NAME
+
+# Set the app name based on the project name
+APP_NAME="$PROJECT_NAME"
 
 # --- Function to check if a command exists ---
 command_exists () {
@@ -14,7 +19,6 @@ command_exists () {
 if ! command_exists uv ; then
     echo "➡️ uv not found. Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    # Add uv to PATH for the current session and future sessions
     export PATH="$HOME/.cargo/bin:$PATH"
     echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
     if ! command_exists uv ; then
@@ -25,23 +29,21 @@ else
     echo "✅ uv is already installed."
 fi
 
----
+---------------------------------------------------
 ### Step 2: Create a new virtual environment
 echo "➡️ Creating a new virtual environment with uv..."
 uv venv
 
-# Activate the virtual environment
 source .venv/bin/activate
 
----
+---------------------------------------------------
 ### Step 3: Install Django and clone the template
 echo "➡️ Installing Django into the new environment..."
 uv pip install Django
 
-echo "➡️ Cloning Django template from GitHub..."
+echo "➡️ Cloning Django template from GitHub into a directory named '$PROJECT_NAME'..."
 git clone "$GITHUB_TEMPLATE_URL" "$PROJECT_NAME"
 
-# Check if cloning was successful
 if [ ! -d "$PROJECT_NAME" ]; then
     echo "❌ Failed to clone the repository. Check the URL and try again."
     exit 1
@@ -49,7 +51,7 @@ fi
 
 cd "$PROJECT_NAME"
 
----
+---------------------------------------------------
 ### Step 4: Install dependencies and set up the project
 echo "➡️ Installing dependencies from requirements.txt..."
 if [ -f "requirements.txt" ]; then
@@ -58,9 +60,10 @@ else
     echo "⚠️ requirements.txt not found. Skipping package installation."
 fi
 
-echo "➡️ Creating new Django app using the template..."
+echo "➡️ Creating a new Django app named '$APP_NAME' using the template..."
 django-admin startapp "$APP_NAME" .
 
 echo "✅ All done! Your Django project '$PROJECT_NAME' and app '$APP_NAME' are ready."
 echo "   Navigate to the directory: cd $PROJECT_NAME"
 echo "   To run the server: python manage.py runserver"
+
