@@ -40,11 +40,13 @@ fi
 
 echo "--- Creating Django project structure... ---"
 mkdir -p $PROJECT_NAME
-cd $PROJECT_NAME
+
 
 echo "--- Copying Docker files from template directory... ---"
 cp "$TEMPLATE_DIR/Dockerfile" .
 cp "$TEMPLATE_DIR/docker-compose.yml" .
+
+cd $PROJECT_NAME
 
 echo "--- Creating requirements.txt... ---"
 cat << EOF > $REQUIREMENTS_FILE
