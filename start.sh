@@ -7,8 +7,6 @@ GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name.git"
 # --- Get user input for the project name ---
 read -p "Enter the name for your new Django project: " PROJECT_NAME
 
-# Set the app name based on the project name
-APP_NAME="$PROJECT_NAME"
 
 # --- Function to check if a command exists ---
 command_exists () {
@@ -17,7 +15,7 @@ command_exists () {
 
 # --- Step 1: Install uv if not already present ---
 if ! command_exists uv ; then
-    echo "Γ₧í∩╕Å uv not found. Installing uv..."
+    echo "uv not found. Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
     export PATH="$HOME/.cargo/bin:$PATH"
     echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
@@ -31,36 +29,29 @@ fi
 
 ---------------------------------------------------
 ### Step 2: Create a new virtual environment
-echo "Γ₧í∩╕Å Creating a new virtual environment with uv..."
+echo "Creating a new virtual environment with uv..."
 uv venv
 
 source .venv/bin/activate
 
 ---------------------------------------------------
 ### Step 3: Install Django and clone the template
-echo "Γ₧í∩╕Å Installing Django into the new environment..."
+echo "Installing Django into the new environment..."
 uv pip install Django
 
-echo "Γ₧í∩╕Å Cloning Django template from GitHub into a directory named '$PROJECT_NAME'..."
-git clone "$GITHUB_TEMPLATE_URL" "$PROJECT_NAME"
-
-if [ ! -d "$PROJECT_NAME" ]; then
-    echo "Γ¥î Failed to clone the repository. Check the URL and try again."
-    exit 1
-fi
-
+mkdir "$PROJECT_NAME"
 cd "$PROJECT_NAME"
 
 ---------------------------------------------------
 ### Step 4: Install dependencies and set up the project
-echo "Γ₧í∩╕Å Installing dependencies from requirements.txt..."
+echo "Installing dependencies from requirements.txt..."
 if [ -f "requirements.txt" ]; then
     uv pip install -r requirements.txt
 else
-    echo "ΓÜá∩╕Å requirements.txt not found. Skipping package installation."
+    echo "requirements.txt not found. Skipping package installation."
 fi
 
-echo "Γ₧í∩╕Å Creating a new Django app named '$APP_NAME' using the template..."
+echo "Creating a new Django projec named '$PROJECT_NAME' using the template..."
 django-admin startproject --template "$GITHUB_TEMPLATE_URL" "$PROJECT_NAME" . 
 
 echo "Γ£à All done! Your Django project '$PROJECT_NAME' and app '$APP_NAME' are ready."
