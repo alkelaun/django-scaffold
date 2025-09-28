@@ -2,7 +2,7 @@
 
 # Define variables
 # The GitHub template URL is still a fixed value
-GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name.git"
+GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name/archive/refs/heads/master.zip"
 
 # --- Get user input for the project name ---
 read -p "Enter the name for your new Django project: " PROJECT_NAME
