@@ -3,14 +3,13 @@
 # Define variables
 # The GitHub template URL is still a fixed value
 GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name/archive/refs/heads/master.zip"
-#!/bin/bash
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
 # --- Configuration ---
 PROJECT_NAME="my_django_project"
-PYTHON_VERSION="3.11"
+PYTHON_VERSION="3.13"
 REQUIREMENTS_FILE="requirements.txt"
 TEMPLATE_DIR="./docker" # Directory containing your Docker files
 
