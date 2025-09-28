@@ -12,7 +12,7 @@ set -e
 PROJECT_NAME="my_django_project"
 PYTHON_VERSION="3.11"
 REQUIREMENTS_FILE="requirements.txt"
-TEMPLATE_DIR="./django_docker_template" # Directory containing your Docker files
+TEMPLATE_DIR="./docker" # Directory containing your Docker files
 
 # --- Function to check for dependencies ---
 check_dependencies() {
