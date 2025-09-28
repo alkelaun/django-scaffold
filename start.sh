@@ -3,58 +3,62 @@
 # Define variables
 # The GitHub template URL is still a fixed value
 GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name/archive/refs/heads/master.zip"
+#!/bin/bash
 
-# --- Get user input for the project name ---
-read -p "Enter the name for your new Django project: " PROJECT_NAME
+# Exit immediately if a command exits with a non-zero status.
+set -e
 
+# --- Configuration ---
+PROJECT_NAME="my_django_project"
+PYTHON_VERSION="3.11"
+REQUIREMENTS_FILE="requirements.txt"
+TEMPLATE_DIR="./django_docker_template" # Directory containing your Docker files
 
-# --- Function to check if a command exists ---
-command_exists () {
-  command -v "$1" >/dev/null 2>&1
-}
-
-# --- Step 1: Install uv if not already present ---
-if ! command_exists uv ; then
-    echo "uv not found. Installing uv..."
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    export PATH="$HOME/.cargo/bin:$PATH"
-    echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
-    if ! command_exists uv ; then
-        echo "Γ¥î Failed to install uv. Please ensure curl is installed and you have write permissions to your home directory."
+# --- Function to check for dependencies ---
+check_dependencies() {
+    if ! command -v docker &> /dev/null
+    then
+        echo "Docker is not installed. Please install it to continue."
         exit 1
     fi
-else
-    echo "Γ£à uv is already installed."
+    if ! command -v docker-compose &> /dev/null
+    then
+        echo "Docker Compose is not installed. Please install it to continue."
+        exit 1
+    fi
+}
+
+# --- Main Script ---
+
+echo "--- Checking dependencies... ---"
+check_dependencies
+
+# Check if the template directory exists
+if [ ! -d "$TEMPLATE_DIR" ]; then
+    echo "Error: Template directory '$TEMPLATE_DIR' not found."
+    exit 1
 fi
 
----------------------------------------------------
-### Step 2: Create a new virtual environment
-echo "Creating a new virtual environment with uv..."
-uv venv
+echo "--- Creating Django project structure... ---"
+mkdir -p $PROJECT_NAME
+cd $PROJECT_NAME
 
-source .venv/bin/activate
+echo "--- Copying Docker files from template directory... ---"
+cp "$TEMPLATE_DIR/Dockerfile" .
+cp "$TEMPLATE_DIR/docker-compose.yml" .
 
----------------------------------------------------
-### Step 3: Install Django and clone the template
-echo "Installing Django into the new environment..."
-uv pip install Django
+echo "--- Creating requirements.txt... ---"
+cat << EOF > $REQUIREMENTS_FILE
+Django
+EOF
 
-mkdir "$PROJECT_NAME"
-cd "$PROJECT_NAME"
+echo "--- Running django-admin inside a temporary container... ---"
+docker run --rm -v "$(pwd)":/usr/src/app python:$PYTHON_VERSION /bin/bash -c "pip install django && django-admin startproject $PROJECT_NAME ."
 
----------------------------------------------------
-### Step 4: Install dependencies and set up the project
-echo "Installing dependencies from requirements.txt..."
-if [ -f "requirements.txt" ]; then
-    uv pip install -r requirements.txt
-else
-    echo "requirements.txt not found. Skipping package installation."
-fi
+echo "--- Building and running containers... ---"
+docker-compose up --build -d
 
-echo "Creating a new Django projec named '$PROJECT_NAME' using the template..."
-django-admin startproject --template "$GITHUB_TEMPLATE_URL" "$PROJECT_NAME" . 
-
-echo "Γ£à All done! Your Django project '$PROJECT_NAME' and app '$APP_NAME' are ready."
-echo "   Navigate to the directory: cd $PROJECT_NAME"
-echo "   To run the server: python manage.py runserver"
-
+echo "--- Setup complete! ---"
+echo "Your Django project '$PROJECT_NAME' is running inside a Docker container."
+echo "You can access it at http://localhost:8000"
+echo "To stop the containers, run 'docker-compose down' from the '$PROJECT_NAME' directory."
