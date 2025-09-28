@@ -9,7 +9,7 @@ set -e
 
 # --- Configuration ---
 PROJECT_NAME="my_django_project"
-PYTHON_VERSION="3.13"
+PYTHON_VERSION="3.13-bookworm-slim"
 REQUIREMENTS_FILE="requirements.txt"
 TEMPLATE_DIR="./docker" # Directory containing your Docker files
 
