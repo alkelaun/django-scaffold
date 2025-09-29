@@ -45,6 +45,7 @@ mkdir -p $PROJECT_NAME
 echo "--- Copying Docker files from template directory... ---"
 cp "$TEMPLATE_DIR/Dockerfile" .
 cp "$TEMPLATE_DIR/docker-compose.yml" .
+cp "$TEMPLATE_DIR/.env" .
 
 cd $PROJECT_NAME
 
