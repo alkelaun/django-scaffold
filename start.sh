@@ -75,6 +75,9 @@ docker run --rm -it \
         # 4. Install Django to the writable directory
         pip install --target \$INSTALL_DIR django &&
 
+        # 4A move the requirements.txt file
+        mv requirements.txt /temp/requirements.txt.bak &&
+
         # 5. Create the project files
         django-admin startproject --template $GITHUB_TEMPLATE_URL $PROJECT_NAME .
 "
