@@ -77,7 +77,7 @@ docker run --rm -it \
 
         # 5. Create the project files
         django-admin startproject --template $GITHUB_TEMPLATE_URL $PROJECT_NAME .
-
+"
 
 echo "--- Building and running containers... ---"
 docker-compose up --build --force-recreate --build-arg PYTHON_VERSION=$PYTHON_VERSION
@@ -87,5 +87,3 @@ echo "Your Django project '$PROJECT_NAME' is running inside a Docker container."
 echo "You can access it at http://localhost:8000"
 echo "To stop the containers, run 'docker-compose down' from the '$PROJECT_NAME' directory."
 
-
-###### BREAKPOINT #####
