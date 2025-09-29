@@ -78,13 +78,13 @@ docker run --rm -it \
 
         # 4A move the requirements.txt file
         mv requirements.txt requirements.txt.bak &&
-        cp requirements.txt ../requirements.txt &&
 
         # 5. Create the project files
         django-admin startproject --template $GITHUB_TEMPLATE_URL $PROJECT_NAME .
 "
 
 echo "--- Building and running containers... ---"
+cp requirements.txt ../requirements.txt
 docker-compose up --build --force-recreate 
 
 echo "--- Setup complete! ---"
