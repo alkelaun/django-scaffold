@@ -24,6 +24,8 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/usr/src/app:rw
+      - ./static:/var/www/static:rw
+      - ./media:/var/www/media:rw
     expose:
       - "8000"
     depends_on:
