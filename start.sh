@@ -83,7 +83,7 @@ docker run --rm -it \
 "
 
 echo "--- Building and running containers... ---"
-docker-compose up --build --force-recreate --build-arg PYTHON_VERSION=$PYTHON_VERSION
+docker-compose up --build --force-recreate 
 
 echo "--- Setup complete! ---"
 echo "Your Django project '$PROJECT_NAME' is running inside a Docker container."
