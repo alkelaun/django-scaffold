@@ -1,6 +1,7 @@
 # Use an official Python runtime as a parent image
 ARG PYTHON_VERSION
-FROM python:${PYTHON_VERSION}
+ARG REQUIREMENTS_FILE
+FROM python:3.13-slim-bookworm
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
