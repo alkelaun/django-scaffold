@@ -19,6 +19,7 @@ services:
       context: .
       args:
         PYTHON_VERSION: "${PYTHON_VERSION}"
+        REQUIREMENTS_FILE: "${REQUIREMENTS_FILE}"
     container_name: django_web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
