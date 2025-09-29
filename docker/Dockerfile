@@ -11,9 +11,9 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Install dependencies
-COPY ./$REQUIREMENTS_FILE .
+COPY ./requirements.txt .
 RUN pip install --upgrade pip
-RUN pip install -r ./$REQUIREMENTS_FILE
+RUN pip install -r ./requirements.txt
 
 # Copy the rest of the application
 COPY . .
