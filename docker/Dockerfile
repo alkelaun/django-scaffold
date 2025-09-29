@@ -1,6 +1,6 @@
 # Use an official Python runtime as a parent image
 ARG PYTHON_VERSION
-FROM python:${PYTHON_VERSION}-slim
+FROM python:${PYTHON_VERSION}
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
