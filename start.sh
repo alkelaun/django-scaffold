@@ -85,7 +85,7 @@ docker run --rm -it \
 
 echo "--- Building and running containers... ---"
 cp requirements.txt ../requirements.txt
-docker-compose --build --force-recreate 
+docker compose --build --force-recreate 
 
 echo "--- Setup complete! ---"
 echo "Your Django project '$PROJECT_NAME' is running inside a Docker container."
