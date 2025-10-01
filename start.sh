@@ -89,6 +89,6 @@ docker compose up --build --force-recreate
 
 echo "--- Setup complete! ---"
 echo "Your Django project '$PROJECT_NAME' is running inside a Docker container."
-echo "You can access it at http://localhost:8000"
+echo "You can access it at http://localhost"
 echo "To stop the containers, run 'docker-compose down' from the '$PROJECT_NAME' directory."
 
