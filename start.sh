@@ -8,7 +8,7 @@ GITHUB_TEMPLATE_URL="https://github.com/alkelaun/project_name/archive/refs/heads
 set -e
 
 # --- Configuration ---
-PROJECT_NAME="my_django_project"
+PROJECT_NAME="project_name"
 PYTHON_VERSION="3.13-slim-bookworm"
 REQUIREMENTS_FILE="requirements.txt"
 TEMPLATE_DIR="./docker" # Directory containing your Docker files
